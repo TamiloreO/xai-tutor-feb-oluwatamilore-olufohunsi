@@ -1,20 +1,20 @@
-import './globals.css';
-import { ReactNode } from 'react';
+import type { Metadata } from "next";
+import "./globals.css";
 
-/**
- * Root layout for the application.
- *
- * This component wraps all pages and imports global styles. It defines
- * the basic HTML structure and applies a minimal margin and padding
- * to ensure content is not flush against the edges of the viewport.
- */
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const metadata: Metadata = {
+  title: "Orders Management - Prodex",
+  description: "Manage your orders efficiently with Prodex",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body>
-        <main className="container">
-          {children}
-        </main>
+      <body className="antialiased">
+        {children}
       </body>
     </html>
   );

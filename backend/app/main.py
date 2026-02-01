@@ -1,13 +1,42 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import health_router, items_router, orders_router
+from app.routes import health_router, items_router
+from app.routes.orders import router as orders_router
 
-app = FastAPI(title="Backend Exercise API", version="1.0.0")
+app = FastAPI(
+    title="Orders Management API",
+    version="1.0.0",
+    description="Backend API for Orders Management Application"
+)
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Register routers
 app.include_router(health_router)
-app.include_router(items_router)
+app.include_router(items_router)  # Keep for backward compatibility
 app.include_router(orders_router)
+
+
+@app.get("/")
+def root():
+    """Root endpoint"""
+    return {
+        "message": "Orders Management API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health"
+    }
 
 
 if __name__ == "__main__":
