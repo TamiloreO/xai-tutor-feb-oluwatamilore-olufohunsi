@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import StatsGrid from './components/StatsGrid';
-import FilterTabs from './components/FilterTabs';
-import OrdersTable from './components/OrdersTable';
-import Pagination from './components/Pagination';
-import BulkActionBar from './components/BulkActionBar';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
+import StatsGrid from '../components/StatsGrid';
+import FilterTabs from '../components/FilterTabs';
+import OrdersTable from '../components/OrdersTable';
+import Pagination from '../components/Pagination';
+import BulkActionBar from '../components/BulkActionBar';
 
+// Order shape matching the backend response
 interface Order {
   id: number;
   order_number: string;
@@ -21,7 +22,7 @@ interface Order {
 
 type Stats = Record<string, number>;
 
-
+// Main orders page component
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -30,17 +31,17 @@ export default function OrdersPage() {
   const [limit] = useState<number>(10);
   const [total, setTotal] = useState<number>(0);
   const [stats, setStats] = useState<Stats>({});
-  
+  // Selected status filter ("All" shows everything)
   const [statusFilter, setStatusFilter] = useState<string>('All');
-  
+  // Sorting field and direction
   const [sortField, setSortField] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  
+  // Hide sidebar when true
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
-  
+  // Search term for client-side filtering
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  
+  // Fetch orders with pagination and optional status filter
   const fetchOrders = async () => {
     try {
       setLoading(true);
@@ -281,10 +282,26 @@ export default function OrdersPage() {
         />
         <StatsGrid stats={stats} />
         {/* Header actions */}
-        <div style={{ marginBottom: '1rem' }}>
-          <button onClick={handleBulkUpdateStatus} disabled={selectedIds.length === 0}>Bulk Update Status</button>
-          <button onClick={() => alert('Export feature not implemented')}>Export Orders</button>
-          <button onClick={handleAddOrder}>+ Add Orders</button>
+        <div className="header-actions">
+          <button
+            className="action-button"
+            onClick={handleBulkUpdateStatus}
+            disabled={selectedIds.length === 0}
+          >
+            Bulk Update Status
+          </button>
+          <button
+            className="action-button"
+            onClick={() => alert('Export feature not implemented')}
+          >
+            Export Orders
+          </button>
+          <button
+            className="action-button primary"
+            onClick={handleAddOrder}
+          >
+            + Add Orders
+          </button>
         </div>
         <FilterTabs
           options={filterOptions}

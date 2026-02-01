@@ -61,7 +61,10 @@ export default function OrdersTable({
       </thead>
       <tbody>
         {orders.map((order) => (
-          <tr key={order.id}>
+          <tr
+            key={order.id}
+            className={selectedIds.includes(order.id) ? 'selected-row' : ''}
+          >
             <td>
               <input
                 type="checkbox"

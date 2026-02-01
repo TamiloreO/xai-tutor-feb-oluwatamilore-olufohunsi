@@ -24,13 +24,16 @@ export default function Header({ onToggleSidebar, searchQuery, onSearchChange }:
       </div>
       <div className="right">
         <div className="search-bar">
+          {/* search icon */}
+          <span className="search-icon">🔍</span>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search anything"
             value={searchQuery}
             onChange={onSearchChange}
           />
-          <span>⌘K</span>
+          {/* keyboard shortcut indicator */}
+          <span className="shortcut">⌘K</span>
         </div>
         <div className="avatars">
           <div className="avatar">A</div>

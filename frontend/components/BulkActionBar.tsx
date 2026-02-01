@@ -19,15 +19,11 @@ export default function BulkActionBar({ count, onUpdateStatus, onDuplicate, onPr
   return (
     <div className="bulk-bar">
       <span className="bulk-count">{count} selected</span>
-      <button onClick={onUpdateStatus}>Update Status</button>
-      <button onClick={onDuplicate}>Duplicate</button>
-      <button onClick={onPrint}>Print</button>
-      <button onClick={onDelete} style={{ backgroundColor: '#dc2626' }}>
-        Delete
-      </button>
-      <button onClick={onDismiss} style={{ marginLeft: 'auto' }}>
-        Dismiss
-      </button>
+      <button className="bulk-btn" onClick={onUpdateStatus}>Update Status</button>
+      <button className="bulk-btn" onClick={onDuplicate}>Duplicate</button>
+      <button className="bulk-btn" onClick={onPrint}>Print</button>
+      <button className="bulk-btn danger" onClick={onDelete}>Delete</button>
+      <button className="bulk-btn dismiss" onClick={onDismiss}>Dismiss</button>
     </div>
   );
 }
