@@ -35,7 +35,7 @@ def run_migrations(action="upgrade"):
     migration_files = get_migration_files()
     
     if action == "downgrade":
-        migration_files = reversed(migration_files)
+        migration_files = reversed(list(migration_files))
     
     for filepath in migration_files:
         module = load_migration_module(filepath)

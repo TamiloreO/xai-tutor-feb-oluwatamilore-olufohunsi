@@ -1,26 +1,469 @@
-@import "tailwindcss";
+/*
+  Global CSS file for the frontend.
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  This stylesheet sets sensible defaults for the application such as
+  typography, layout padding and simple table styling. It keeps the
+  visual structure clean without relying on an external CSS framework.
+*/
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+/* Container centers content and applies horizontal padding */
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 1rem;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th,
+td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: middle;
+}
+th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Button styling */
+button {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+button:last-child {
+  margin-right: 0;
+}
+button:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Bulk action bar displayed when orders are selected */
+.bulk-bar {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+.bulk-count {
+  margin-right: 1rem;
+  font-weight: 600;
+}
+
+/* Miscellaneous */
+h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Input (checkbox) styling for better alignment */
+input[type='checkbox'] {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Dashboard layout */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+/* When the dashboard is collapsed (sidebar hidden) adjust layout */
+.dashboard-container.collapsed .sidebar {
+  display: none;
+}
+.dashboard-container.collapsed .content {
+  padding-left: 1rem;
+}
+.sidebar {
+  width: 240px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.content {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+/* Sidebar navigation */
+.sidebar .nav-section {
+  margin-bottom: 1.5rem;
+}
+.sidebar .nav-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar li {
+  margin-bottom: 0.5rem;
+}
+.sidebar li a {
+  display: block;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  color: #374151;
+  text-decoration: none;
+  transition: background-color 0.1s ease-in-out;
+}
+.sidebar li a.active {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+.sidebar li a:hover {
+  background-color: #f3f4f6;
+}
+
+/* Header styling */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.header .left {
+  display: flex;
+  align-items: center;
+}
+.header .left .collapse-button {
+  margin-right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.header .left .logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-right: 0.5rem;
+}
+.header .left .logo .icon {
+  width: 1rem;
+  height: 1rem;
+  background-color: #f97316; /* orange icon */
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+}
+.header .left .page-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.header .right {
+  display: flex;
+  align-items: center;
+}
+.header .right .search-bar {
+  position: relative;
+  margin-right: 1rem;
+}
+.header .right .search-bar input {
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+.header .right .search-bar span {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+.header .right .avatars {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+.header .right .avatars .avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-right: -0.5rem;
+  border: 2px solid #ffffff;
+}
+.header .right .avatars .more {
+  background-color: #e5e7eb;
+}
+.header .right .notifications {
+  position: relative;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+.header .right .notifications .bell {
+  font-size: 1.25rem;
+}
+.header .right .notifications .badge {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  background-color: #ef4444;
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  padding: 0 0.25rem;
+}
+.header .right .profile-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+.header .right .profile-dropdown .avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+.header .right .profile-dropdown .menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: none;
+  min-width: 8rem;
+  z-index: 50;
+}
+.header .right .profile-dropdown:hover .menu {
+  display: block;
+}
+.header .right .profile-dropdown .menu a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #374151;
+  text-decoration: none;
+}
+.header .right .profile-dropdown .menu a:hover {
+  background-color: #f3f4f6;
+}
+
+/* Stats cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stats-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.stats-card .indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  margin-right: 0.5rem;
+}
+.stats-card .content {
+  display: flex;
+  flex-direction: column;
+}
+.stats-card .content .title {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+.stats-card .content .value {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* Filter tabs */
+.filters {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+.filters button {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: transparent;
+  border-bottom: 2px solid transparent;
+  color: #374151;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.filters button.active {
+  border-bottom-color: #2563eb;
+  font-weight: 600;
+}
+.filters button:hover {
+  background-color: #f3f4f6;
+}
+
+/* Table enhancements */
+td.customer-cell {
+  display: flex;
+  align-items: center;
+}
+td.customer-cell .avatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  margin-right: 0.5rem;
+}
+td.status-cell span {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+.status-pending {
+  background-color: #facc15; /* yellow */
+  color: #78350f;
+}
+.status-completed {
+  background-color: #16a34a; /* green */
+  color: #065f46;
+}
+.status-refunded {
+  background-color: #ef4444; /* red */
+  color: #7f1d1d;
+}
+td.payment-cell span {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.payment-paid {
+  background-color: #dcfce7; /* light green */
+  color: #15803d;
+}
+.payment-unpaid {
+  background-color: #fee2e2; /* light red */
+  color: #b91c1c;
+}
+td.actions-cell button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-right: 0.25rem;
+  font-size: 1rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+.pagination button {
+  margin-right: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  color: #374151;
+  font-size: 0.875rem;
+}
+.pagination button.active {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+.pagination button:hover:not(.active) {
+  background-color: #f3f4f6;
+}
+
+/* Card for upgrade section */
+.premium-card {
+  padding: 1rem;
+  background-color: #fefce8;
+  border: 1px solid #fde68a;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+.premium-card .title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.premium-card .expire {
+  font-size: 0.75rem;
+  color: #a16207;
 }
